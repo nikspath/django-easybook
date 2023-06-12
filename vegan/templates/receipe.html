@@ -1,0 +1,64 @@
+{%extends "base.html"%}
+
+{%block start%}
+{{request.user.username}}
+<div class="container card p-3 shadow-lg mt-5 col-6">
+	<h3>Add receipe</h3>
+	<hr/>
+<form method="post" enctype="multipart/form-data" action="/receipe_form/">
+	{%csrf_token%}
+	{%if edit_receipe.id %}
+	<input type="text" value="update" name="type" >
+	<input type="text" value="{{edit_receipe.id}}" name="id" >
+	{%else%}
+	<input type="text" value="add" name="type" >
+	{%endif%}
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" name="receipe_name"
+     {%if edit_receipe.name %} value={{edit_receipe.name}} {%endif%}>
+  
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">description</label>
+    <textarea class="form-control" name="receipe_description" {%if edit_receipe.description %} value={{edit_receipe.description}} {%endif%}> {%if edit_receipe.description %} {{edit_receipe.description}} {%endif%} </textarea>
+  </div>
+   <div class="mb-3">
+    <label for="image" class="form-label">Image</label>
+    <input type="file" class="form-control" name="receipe_img" />
+  </div>
+
+  <button type="submit" class="btn btn-success form-control">Add Receipe </button>
+</form>
+</div>
+<hr>
+<div class="container">
+	{%if receipe_all%}
+
+		<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Sr. No</th>
+      <th scope="col">Receipe name</th>
+      <th scope="col">Receipe description</th>
+      <th scope="col">Receipe image</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{%for rec in receipe_all%}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{rec.name}}</td>
+      <td>{{rec.description}}</td>
+      <td><img src="/media/{{rec.image}}" style="height:100px" /></td>
+      <td><a class="btn btn-danger" href="/delete-receipe/{{rec.id}}" >delete</a>
+      	<a class="btn btn-primary" href="/update-receipe/{{rec.id}}" >update</a></td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+	{%endif%}
+	</div>
+	
+{%endblock%}

@@ -1,0 +1,30 @@
+{%extends "base.html"%}
+
+{%block start%}
+<div class="container card p-3 mt-5 col-6">
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-primary" role="alert">
+  {{ message }}
+</div>
+    
+    {% endfor %}
+</ul>
+{% endif %}
+	<form method="post">
+		{%csrf_token%}
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">username</label>
+    <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+  </div>
+ 
+  <p>Dont have account?<a href="/register/">Register here</a></p>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+{%endblock%}

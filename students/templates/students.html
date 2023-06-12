@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{%block start%}
+<div class="container">
+<form>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="text" class="form-control" name="search" placeholder="Search" id="exampleInputEmail1" aria-describedby="emailHelp">
+   
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+</div>
+
+<div class="container">
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">SR no</th>
+      <th scope="col">student name</th>
+      <th scope="col">departname</th>
+      <th scope="col">student email</th>
+    </tr>
+  </thead>
+  <tbody>
+   {%for s in student_data%}
+   <tr>
+   	<td>{{forloop.counter}}</td>
+   	<td><a href="{% url 'student_detail' s.studentid %}">{{s.std_name}}</a></td>
+   	<td>{{s.department.department}}</td>
+	<td>{{s.std_email}}</td>
+</tr>
+	{%endfor%}
+
+
+  </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if student_data.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ student_data.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ student_data.number }} of {{ student_data.paginator.num_pages }}.
+        </span>
+
+        {% if student_data.has_next %}
+            <a href="?page={{ student_data.next_page_number }}">next</a>
+            <a href="?page={{ student_data.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+	
+</div>
+{%endblock%}
